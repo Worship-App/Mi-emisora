@@ -9,6 +9,7 @@ export interface Song {
   genre: string
   year: number
   rating?: number
+  license?: string
 }
 
 export interface Playlist {
