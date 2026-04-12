@@ -130,13 +130,37 @@ export default function Header({
               </div>
             </div>
 
-            {/* Título de la sección activa (visible en desktop) */}
-            <div className="hidden lg:block flex-1 text-center">
-              {allSections.flatMap(s => s.items).find(item => item.id === activeTab)?.label && (
-                <span className="text-white/60 text-sm">
-                  {allSections.flatMap(s => s.items).find(item => item.id === activeTab)?.label}
-                </span>
-              )}
+            {/* Indicador de sección activa - PREMIUM */}
+            <div className="hidden lg:flex flex-1 justify-center">
+              {(() => {
+                const currentItem = allSections.flatMap(s => s.items).find(item => item.id === activeTab)
+                const currentSection = allSections.find(s => s.items.some(i => i.id === activeTab))
+                if (!currentItem) return null
+                
+                return (
+                  <div className="flex items-center gap-3 px-5 py-2 rounded-full bg-gradient-to-r from-white/5 via-white/10 to-white/5 border border-white/10 backdrop-blur-sm">
+                    {/* Icono de la sección */}
+                    <currentItem.icon className="w-4 h-4 text-gold-400" />
+                    
+                    {/* Texto con breadcrumb */}
+                    <div className="flex items-center gap-2 text-sm">
+                      {currentSection && (
+                        <>
+                          <span className="text-white/40 font-medium">{currentSection.title}</span>
+                          <span className="text-white/30">/</span>
+                        </>
+                      )}
+                      <span className="text-white font-semibold">{currentItem.label}</span>
+                    </div>
+                    
+                    {/* Indicador pulsante */}
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-gold-500"></span>
+                    </span>
+                  </div>
+                )
+              })()}
             </div>
 
             {/* Theme Toggle & Customizer */}
